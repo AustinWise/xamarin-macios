@@ -276,8 +276,8 @@ xamarin_main (int argc, char *argv[], enum XamarinLaunchMode launch_mode)
 	xamarin_setup ();
 	DEBUG_LAUNCH_TIME_PRINT ("MonoTouch setup time");
 
-	MonoAssembly *assembly;
-	GCHandle exception_gchandle = NULL;
+	MonoAssembly *assembly = NULL;
+	// GCHandle exception_gchandle = NULL;
 
 	// Get the original working directory, and store it somewhere.
 	if (getcwd (original_working_directory_path, sizeof (original_working_directory_path)) == NULL)
@@ -441,6 +441,7 @@ xamarin_main (int argc, char *argv[], enum XamarinLaunchMode launch_mode)
 	if (xamarin_register_assemblies != NULL)
 		xamarin_register_assemblies ();
 
+/*
 	if (xamarin_executable_name) {
 		assembly = xamarin_open_and_register (xamarin_executable_name, &exception_gchandle);
 		xamarin_process_fatal_exception_gchandle (exception_gchandle, "An exception occurred while opening the main executable");
@@ -460,6 +461,7 @@ xamarin_main (int argc, char *argv[], enum XamarinLaunchMode launch_mode)
 		xamarin_mono_object_release (&rassembly);
 		xamarin_process_fatal_exception_gchandle (exception_gchandle, "An exception occurred while opening the entry assembly");
 	}
+*/
 
 	DEBUG_LAUNCH_TIME_PRINT ("\tAssembly register time");
 
@@ -497,7 +499,7 @@ xamarin_main (int argc, char *argv[], enum XamarinLaunchMode launch_mode)
 		break;
 	}
 
-	xamarin_mono_object_release (&assembly);
+	// xamarin_mono_object_release (&assembly);
 	
 	xamarin_release_static_dictionaries ();
 

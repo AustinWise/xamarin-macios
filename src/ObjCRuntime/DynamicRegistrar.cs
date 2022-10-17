@@ -107,15 +107,24 @@ namespace Registrar {
 
 		protected override bool ContainsPlatformReference (Assembly assembly)
 		{
+/*
 			var aname = assembly.GetName ().Name;
 
 			if (aname == AssemblyName)
 				return true;
+*/
 
+			if (assembly == typeof(DynamicRegistrar).Assembly || assembly == Assembly.GetEntryAssembly ())
+			{
+				return true;
+			}
+
+/*
 			foreach (var ar in assembly.GetReferencedAssemblies ()) {
 				if (ar.Name == AssemblyName)
 					return true;
 			}
+*/
 			return false;
 		}
 

@@ -1314,8 +1314,8 @@ xamarin_initialize ()
 	xamarin_bridge_call_runtime_initialize (&options, &exception_gchandle);
 	xamarin_process_fatal_exception_gchandle (exception_gchandle, "An exception occurred while calling Runtime.Initialize");
 
-	xamarin_bridge_register_product_assembly (&exception_gchandle);
-	xamarin_process_fatal_exception_gchandle (exception_gchandle, "An exception occurred while registering the product assembly");
+	// xamarin_bridge_register_product_assembly (&exception_gchandle);
+	// xamarin_process_fatal_exception_gchandle (exception_gchandle, "An exception occurred while registering the product assembly");
 
 #if !defined (CORECLR_RUNTIME)
 	xamarin_install_mono_profiler (); // must be called before xamarin_install_nsautoreleasepool_hooks or xamarin_enable_new_refcount

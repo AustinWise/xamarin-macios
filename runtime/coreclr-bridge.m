@@ -742,7 +742,7 @@ mono_jit_exec (MonoDomain * domain, MonoAssembly * assembly, int argc, const cha
 {
 	unsigned int exitCode = 0;
 
-	char *assemblyPath = xamarin_bridge_get_assembly_location (assembly->gchandle);
+	char *assemblyPath = NULL; // xamarin_bridge_get_assembly_location (assembly->gchandle);
 
 	if (argc > 0) {
 		// The first argument is to the native executable, which we don't want to pass on to native code.
@@ -759,7 +759,7 @@ mono_jit_exec (MonoDomain * domain, MonoAssembly * assembly, int argc, const cha
 
 	LOG_CORECLR (stderr, "mono_jit_exec (%p, %p, %i, %p) => EXECUTING %s rv: %i exitCode: %i\n", domain, assembly, argc, argv, assemblyPath, rv, exitCode);
 
-	xamarin_free (assemblyPath);
+	// xamarin_free (assemblyPath);
 
 	if (rv != 0)
 		xamarin_assertion_message ("mono_jit_exec failed: %i\n", rv);

@@ -215,6 +215,14 @@ namespace ObjCRuntime {
 		static extern int _NSGetExecutablePath (byte[] buf, ref int bufsize);
 #endif
 
+#if NET
+		[UnmanagedCallersOnly (EntryPoint = "AustinXamarinRuntimeInitialize", CallConvs = new Type[] { typeof(CallConvCdecl) })]
+		unsafe static void AustinInitialize(IntPtr options)
+		{
+			Initialize ((InitializationOptions*)options);
+		}
+#endif
+
 		[Preserve] // called from native - runtime.m.
 		[BindingImpl (BindingImplOptions.Optimizable)] // To inline the Runtime.DynamicRegistrationSupported code if possible.
 		unsafe static void Initialize (InitializationOptions* options)
@@ -605,6 +613,7 @@ namespace ObjCRuntime {
 		static void CollectReferencedAssemblies (List<Assembly> assemblies, Assembly assembly)
 		{
 			assemblies.Add (assembly);
+/*
 			foreach (var rf in assembly.GetReferencedAssemblies ()) {
 #if MONOMAC
 				if (!OnAssemblyRegistration (rf))
@@ -625,6 +634,7 @@ namespace ObjCRuntime {
 #endif
 				}
 			}
+*/
 		}
 
 		internal static IEnumerable<Assembly> GetAssemblies ()
