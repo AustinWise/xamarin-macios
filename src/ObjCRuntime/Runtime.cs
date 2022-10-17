@@ -392,10 +392,10 @@ namespace ObjCRuntime {
 			return managed_exception_mode;
 		}
 
-		static IntPtr GetFunctionPointer (Delegate d)
+		static IntPtr GetFunctionPointer<TDelegate> (TDelegate d) where TDelegate : notnull
 		{
 			delegates.Add (d);
-			return Marshal.GetFunctionPointerForDelegate (d);
+			return Marshal.GetFunctionPointerForDelegate<TDelegate> (d);
 		}
 
 		// value_handle: GCHandle to a (smart) enum value
@@ -995,13 +995,13 @@ namespace ObjCRuntime {
 			return (Delegate) method.Invoke (null, new object [] { block } )!;
 		}
 
-		internal static Delegate? GetDelegateForBlock (IntPtr methodPtr, Type type)
+		internal static Delegate? GetDelegateForBlock<T> (IntPtr methodPtr)
 		{
 			// We do not care if there is a race condition and we initialize two caches
 			// since the worst that can happen is that we end up with an extra
 			// delegate->function pointer.
 			Delegate? val;
-			var pair = new IntPtrTypeValueTuple (methodPtr, type);
+			var pair = new IntPtrTypeValueTuple (methodPtr, typeof(T));
 			lock (lock_obj) {
 				if (block_to_delegate_cache is null)
 					block_to_delegate_cache = new Dictionary<IntPtrTypeValueTuple, Delegate> ();
@@ -1010,7 +1010,7 @@ namespace ObjCRuntime {
 					return val;
 			}
 
-			val = Marshal.GetDelegateForFunctionPointer (methodPtr, type);
+			val = (Delegate) (object) Marshal.GetDelegateForFunctionPointer<T> (methodPtr)!;
 
 			lock (lock_obj) {
 				block_to_delegate_cache [pair] = val;
